@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>全息圖性格與運勢分析</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, button {
+            display: block;
+            margin: 10px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        td {
+            text-align: center;
+        }
+        td.left-align {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>全息圖性格與運勢分析</h1>
+    <label for="birthdate">請輸入您的陽曆生日：</label>
+    <input type="date" id="birthdate" required>
+    <button onclick="analyze()">分析</button>
+    <div id="result"></div>
+
+    <script>
+        function reduceToSingleDigit(number) {
+            while (number > 9) {
+                number = number.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+            }
+            return number;
+        }
+
+        function calculateHologramNumbers(birthdate) {
+            const [year, month, day] = birthdate.split('-').map(Number);
+
+            const A = Math.floor(day / 10);
+            const B = day % 10;
+            const C = Math.floor(month / 10);
+            const D = month % 10;
+            const E = Math.floor(year / 1000);
+            const F = Math.floor((year % 1000) / 100);
+            const G = Math.floor((year % 100) / 10);
+            const H = year % 10;
+
+            const I = reduceToSingleDigit(A + B);
+            const J = reduceToSingleDigit(C + D);
+            const K = reduceToSingleDigit(E + F);
+            const L = reduceToSingleDigit(G + H);
+
+            const M = reduceToSingleDigit(I + J);
+            const N = reduceToSingleDigit(K + L);
+
+            const O = reduceToSingleDigit(M + N);
+            const P = reduceToSingleDigit(M + O);
+            const Q = reduceToSingleDigit(N + O);
+            const R = reduceToSingleDigit(P + Q);
+
+            const S = reduceToSingleDigit(I + M);
+            const T = reduceToSingleDigit(J + N);
+
+            return { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T };
+        }
+
+        function getNumberMeaning(number) {
+            const meanings = {
+                1: "獨立、自信，具領導能力。",
+                2: "合作、敏感，善於協調。",
+                3: "創意、樂觀，表達能力強。",
+                4: "務實、可靠，重視穩定。",
+                5: "自由、冒險，喜歡變化。",
+                6: "關懷、責任感強，重視家庭。",
+                7: "內省、智慧，追求真理。",
+                8: "權威、野心，追求成功。",
+                9: "博愛、理想主義，關心人類。"
+            };
+            return meanings[number] || "未知的數字意義。";
+        }
+
+        function getPositionMeaning(position) {
+            const positionMeanings = {
+                A: "生日的十位數",
+                B: "生日的個位數",
+                C: "月份的十位數",
+                D: "月份的個位數",
+                E: "年份的千位數",
+                F: "年份的百位數",
+                G: "年份的十位數",
+                H: "年份的個位數",
+                I: "生日數字總和",
+                J: "月份數字總和",
+                K: "年份前兩位數字總和",
+                L: "年份後兩位數字總和",
+                M: "個人特質數字",
+                N: "生命目標數字",
+                O: "主性格數字",
+                P: "潛在挑戰數字",
+                Q: "潛在機會數字",
+                R: "最終目標數字",
+                S: "內在動機數字",
+                T: "外在表現數字"
+            };
+            return positionMeanings[position] || "未知的位置意義。";
+        }
+
+        function getCalculationRule(position) {
+            const calculationRules = {
+                A: "生日的十位數",
+                B: "生日的個位數",
+                C: "月份的十位數",
+                D: "月份的個位數",
+                E: "年份的千位數",
+                F: "年份的百位數",
+                G: "年份的十位數",
+                H: "年份的個位數",
+                I: "A + B",
+                J: "C + D",
+                K: "E + F",
+                L: "G + H",
+                M: "I + J",
+                N: "K + L",
+                O: "M + N",
+                P: "M + O",
+                Q: "N + O",
+                R: "P + Q",
+                S: "I + M",
+                T: "J + N"
+            };
+            return calculationRules[position] || "未知的計算規則。";
+        }
+
+        function analyze() {
+            const birthdate = document.getElementById('birthdate').value;
+            if (!birthdate) {
+                alert('請輸入有效的生日日期。');
+                return;
+            }
+
+            const numbers = calculateHologramNumbers(birthdate);
+            let resultHTML = '<h2>計算結果：</h2>';
+            resultHTML += '<table>';
+            resultHTML += '<tr><th>位置</th><th>數值</th><th>計算規則</th><th>位置意義</th><th>數值意義</th></tr>';
+
+            for (const [key, value] of Object.entries(numbers)) {
+                resultHTML += `<tr><td>${key}</td><td>${value}</td><td>${getCalculationRule(key)}</td><td>${getPositionMeaning(key)}</td><td>${getNumberMeaning(value)}</td></tr>`;
+            }
+
+            resultHTML += '</table>';
+            document.getElementById('result').innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
