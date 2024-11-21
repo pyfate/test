@@ -2,43 +2,170 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>全息圖性格與運勢分析</title>
     <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f5f5;
+            --text-color: #333;
+            --border-color: #ddd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        label, input, button {
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .input-section {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            padding: 1.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+        }
+
+        label {
             display: block;
-            margin: 10px 0;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--text-color);
         }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        .result-container {
+            overflow-x: auto;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
             margin-top: 20px;
+            background-color: white;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid var(--border-color);
+            padding: 12px 8px;
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: var(--primary-color);
+            color: white;
             text-align: center;
+            white-space: nowrap;
         }
+
         td {
             text-align: center;
         }
-        td.left-align {
+
+        td:last-child {
             text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--secondary-color);
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: 6px 3px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>全息圖性格與運勢分析</h1>
-    <label for="birthdate">請輸入您的陽曆生日：</label>
-    <input type="date" id="birthdate" required>
-    <button onclick="analyze()">分析</button>
-    <div id="result"></div>
+    <div class="container">
+        <h1>全息圖性格與運勢分析</h1>
+        
+        <div class="input-section">
+            <label for="birthdate">請輸入您的陽曆生日：</label>
+            <input type="date" id="birthdate" required>
+            <button onclick="analyze()">開始分析</button>
+        </div>
+
+        <div class="result-container" id="result"></div>
+    </div>
 
     <script>
         function reduceToSingleDigit(number) {
